@@ -42,7 +42,7 @@ services:
 
       # Must be valid JSON because the backend parses CORS_ORIGINS as a List[str]
       - key: CORS_ORIGINS
-        value: '["https://career-intelligence-frontend.onrender.com"]'
+        value: '["https://career-intelligence-frontend-sb8a.onrender.com"]'
 
     healthCheckPath: /health
     autoDeploy: true
@@ -57,7 +57,7 @@ services:
 
     envVars:
       - key: VITE_API_URL
-        value: https://career-intelligence-api.onrender.com/api
+        value: https://career-intelligence-api-b7ee.onrender.com/api
 
     routes:
       - type: rewrite
