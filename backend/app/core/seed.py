@@ -19,7 +19,7 @@ def seed_database(db: Session):
 
         # Create Demo Profile
         profile = UserProfile(
-            user_id=demo_user.email,
+            user_id=demo_user.id,
             first_name="Alex",
             last_name="Jordan",
             location="Bangalore, India"
@@ -40,9 +40,9 @@ def seed_database(db: Session):
 
         # Link skills to the demo user so recommendations populate
         for skill in skill_objs:
-            if not db.query(UserSkill).filter(UserSkill.user_id == demo_user.email, UserSkill.skill_id == skill.id).first():
+            if not db.query(UserSkill).filter(UserSkill.user_id == demo_user.id, UserSkill.skill_id == skill.id).first():
                 db.add(UserSkill(
-                    user_id=demo_user.email,
+                    user_id=demo_user.id,
                     skill_id=skill.id,
                     proficiency_level="advanced"
                 ))
@@ -51,7 +51,7 @@ def seed_database(db: Session):
 
         # Create Demo Education
         edu = Education(
-            user_id=demo_user.email,
+            user_id=demo_user.id,
             degree="B.Tech Computer Science",
             university="Anna University"
         )
@@ -63,8 +63,8 @@ def seed_database(db: Session):
     if existing_demo:
         for name in ["python", "javascript", "react", "fastapi", "sql", "git"]:
             skill = db.query(Skill).filter(Skill.name == name).first()
-            if skill and not db.query(UserSkill).filter(UserSkill.user_id == existing_demo.email, UserSkill.skill_id == skill.id).first():
-                db.add(UserSkill(user_id=existing_demo.email, skill_id=skill.id, proficiency_level="advanced"))
+            if skill and not db.query(UserSkill).filter(UserSkill.user_id == existing_demo.id, UserSkill.skill_id == skill.id).first():
+                db.add(UserSkill(user_id=existing_demo.id, skill_id=skill.id, proficiency_level="advanced"))
         db.commit()
 
     # 1b. Create Admin User
@@ -81,7 +81,7 @@ def seed_database(db: Session):
         db.refresh(admin_user)
 
         admin_profile = UserProfile(
-            user_id=admin_user.email,
+            user_id=admin_user.id,
             first_name="Admin",
             last_name="User",
             location="Bangalore, India"
