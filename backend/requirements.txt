@@ -19,14 +19,14 @@ python-multipart>=0.0.6
 email-validator>=2.1.1
 
 # File Upload
-python-magic>=0.4.27
+# python-magic>=0.4.27
 
 # Resume Parsing
 PyMuPDF>=1.24.7
 python-docx>=1.1.1
 
 # NLP and Text Processing
-spacy>=3.7.4
+# spacy>=3.7.4
 
 # AI/ML (Lightweight versions for local development)
 # sentence-transformers>=2.2.2  # Uncomment if you want semantic embeddings (requires ~500MB download)
