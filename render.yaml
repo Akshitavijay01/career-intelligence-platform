@@ -47,14 +47,18 @@ services:
     healthCheckPath: /health
     autoDeploy: true
 
-# Frontend (React/Vite) as a static site
-staticSites:
-  - name: career-intelligence-frontend
+  # Frontend (React/Vite) - a static site, per the Render Blueprint spec
+  - type: web
+    name: career-intelligence-frontend
+    runtime: static
+
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+
     envVars:
       - key: VITE_API_URL
         value: https://career-intelligence-api.onrender.com/api
+
     routes:
       - type: rewrite
         source: /*
