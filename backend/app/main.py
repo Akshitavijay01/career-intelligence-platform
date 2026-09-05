@@ -57,7 +57,10 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "database": "SQLite"}
+    return {
+        "status": "healthy",
+        "database": "PostgreSQL" if not settings.DATABASE_URL.startswith("sqlite") else "SQLite"
+    }
 
 # Create database tables on startup
 @app.on_event("startup")
