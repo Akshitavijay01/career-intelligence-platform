@@ -1,11 +1,4 @@
 services:
-  # PostgreSQL Database
-  - type: postgres
-    name: career-intelligence-db
-    plan: free
-    databaseName: career_intelligence
-    user: career_intelligence
-
   # Backend API (FastAPI)
   - type: web
     name: career-intelligence-api
@@ -13,33 +6,46 @@ services:
     plan: free
     buildCommand: cd backend && pip install -r requirements.txt
     startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: career-intelligence-db
           property: connectionString
+
       - key: SECRET_KEY
         generateValue: true
+
       - key: JWT_ALGORITHM
         value: HS256
+
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: 30
+        value: "30"
+
       - key: REFRESH_TOKEN_EXPIRE_DAYS
-        value: 7
+        value: "7"
+
       - key: MAX_FILE_SIZE_MB
-        value: 5
+        value: "5"
+
       - key: UPLOAD_DIR
         value: ./uploads
+
       - key: USE_LOCAL_EMBEDDINGS
         value: "true"
+
       - key: DEBUG
         value: "false"
+
       - key: LOG_LEVEL
         value: info
+
       - key: CORS_ORIGINS
         value: https://career-intelligence-frontend.onrender.com
+
     healthCheckPath: /health
     autoDeploy: true
+
 
   # Frontend (React/Vite)
   - type: web
@@ -48,10 +54,20 @@ services:
     plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+
     envVars:
       - key: VITE_API_URL
         value: https://career-intelligence-api.onrender.com/api
+
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
+
+
+# PostgreSQL Database
+databases:
+  - name: career-intelligence-db
+    plan: free
+    databaseName: career_intelligence
+    user: career_intelligence
