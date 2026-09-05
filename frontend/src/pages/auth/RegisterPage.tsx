@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react'
 import { toast } from 'sonner'
 import axios from 'axios'
+import apiClient, { authApi } from '@/api/client'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
@@ -67,7 +68,7 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      await axios.post('http://localhost:8000/api/auth/register', {
+      await authApi.register({
         email: formData.email,
         password: formData.password,
         first_name: formData.firstName,

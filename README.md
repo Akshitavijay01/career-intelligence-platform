@@ -306,12 +306,41 @@ To test with sample opportunities:
 
 ## 🚀 Deployment
 
-For production deployment:
-1. Use PostgreSQL instead of SQLite
-2. Set `DEBUG=false` in .env
-3. Use proper secret keys
-4. Enable HTTPS
-5. Use production web server (Gunicorn/Nginx)
+### Deploy on Render (Free) — One-Click Blueprint
+
+This repo includes a `render.yaml` Blueprint that deploys **PostgreSQL + FastAPI backend + React frontend** all at once.
+
+1. Push this repo to GitHub (already done at `https://github.com/Akshitavijay01/career-intelligence-platform`).
+2. Go to [render.com](https://render.com) and **Sign in with GitHub** (free account).
+3. Click **New** → **Blueprint** → connect your GitHub repo `career-intelligence-platform`.
+4. Render reads `render.yaml` and shows all 3 services — click **Apply**.
+5. Wait ~5-10 minutes. You'll get URLs:
+   - Frontend: `https://career-intelligence-frontend.onrender.com`
+   - Backend API: `https://career-intelligence-api.onrender.com`
+   - Swagger docs: `https://career-intelligence-api.onrender.com/docs`
+
+> **Note:** Free-tier services "sleep" after ~15 min of inactivity and wake on the next request (first load may take ~30s).
+
+### Manual Deployment (instead of Blueprint)
+
+- **Database:** Create a free PostgreSQL instance on Render. Copy its *Internal Database URL*.
+- **Backend web service:**
+  - Root directory: `backend`
+  - Build: `pip install -r requirements.txt`
+  - Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+  - Env vars: `DATABASE_URL` (from Render Postgres), `SECRET_KEY` (random), `CORS_ORIGINS` → your frontend URL
+- **Frontend static site:**
+  - Root directory: `frontend`
+  - Build: `npm install && npm run build`
+  - Publish directory: `dist`
+  - Env var: `VITE_API_URL` → `https://your-backend.onrender.com/api`
+
+### Older instructions (SQLite/local only)
+
+For simple local production:
+1. Set `DEBUG=false`
+2. Use proper secret keys
+3. Note: SQLite does **not** persist on cloud platforms — use PostgreSQL instead.
 
 ---
 
